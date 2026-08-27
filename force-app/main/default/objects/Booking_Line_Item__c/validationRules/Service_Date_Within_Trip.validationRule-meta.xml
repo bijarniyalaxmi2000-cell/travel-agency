@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Service_Date_Within_Trip</fullName>
+    <active>true</active>
+    <errorConditionFormula>OR(
+				Service_Date__c &lt; Booking__r.Travel_Start_Date__c, 
+				Service_Date__c &gt; Booking__r.Travel_End_Date__c
+)</errorConditionFormula>
+    <errorDisplayField>Service_Date__c</errorDisplayField>
+    <errorMessage>Service Date must fall within the Booking&apos;s Travel Start and End Date.</errorMessage>
+</ValidationRule>

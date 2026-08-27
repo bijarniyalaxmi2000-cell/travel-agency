@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Travelers_Must_Be_Positive</fullName>
+    <active>true</active>
+    <errorConditionFormula>Number_of_Travelers__c  &lt;= 0</errorConditionFormula>
+    <errorDisplayField>Number_of_Travelers__c</errorDisplayField>
+    <errorMessage>Number of Travelers must be at least 1.</errorMessage>
+</ValidationRule>

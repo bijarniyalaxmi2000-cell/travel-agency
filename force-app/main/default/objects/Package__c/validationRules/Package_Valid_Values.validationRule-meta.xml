@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Package_Valid_Values</fullName>
+    <active>true</active>
+    <errorConditionFormula>OR(Base_Price__c &lt;= 0, Duration_Days__c &lt;= 0)</errorConditionFormula>
+    <errorMessage>Base Price and Duration must be greater than 0.</errorMessage>
+</ValidationRule>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Commission_Only_On_Confirmed</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(ISNEW(), NOT(ISPICKVAL(Booking__r.Booking_Status__c, &quot;Confirmed&quot;)))</errorConditionFormula>
+    <errorMessage>Commission can only be created for a Confirmed booking.</errorMessage>
+</ValidationRule>

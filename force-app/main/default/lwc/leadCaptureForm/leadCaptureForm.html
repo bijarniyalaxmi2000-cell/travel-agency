@@ -1,0 +1,128 @@
+<template>
+    <div class="page-wrap">
+
+        <div class="intro">
+            <h1>Plan your next trip with us</h1>
+            <p>Tell us a little about your travel plans and our team will get back to you with a tailored package.</p>
+        </div>
+
+        <div class="form-card">
+
+            <template if:true={errorMessage}>
+                <div class="error-banner">{errorMessage}</div>
+            </template>
+
+            <p class="section-label">Your details</p>
+
+            <div class="form-row">
+                <lightning-input
+                    label="First name"
+                    data-field="firstName"
+                    value={firstName}
+                    onchange={handleChange}
+                    required>
+                </lightning-input>
+                <lightning-input
+                    label="Last name"
+                    data-field="lastName"
+                    value={lastName}
+                    onchange={handleChange}
+                    required>
+                </lightning-input>
+            </div>
+
+            <div class="form-row">
+                <lightning-input
+                    type="email"
+                    label="Email"
+                    data-field="email"
+                    value={email}
+                    onchange={handleChange}
+                    required>
+                </lightning-input>
+                <lightning-input
+                    type="tel"
+                    label="Phone"
+                    data-field="phone"
+                    value={phone}
+                    onchange={handleChange}
+                    required>
+                </lightning-input>
+            </div>
+
+            <lightning-input
+                label="Company"
+                data-field="company"
+                value={company}
+                onchange={handleChange}>
+            </lightning-input>
+
+            <lightning-combobox
+                label="Client type"
+                data-field="clientType"
+                value={clientType}
+                options={clientTypeOptions}
+                onchange={handleChange}>
+            </lightning-combobox>
+
+            <p class="section-label">Trip details</p>
+
+            <lightning-input
+                label="Destination"
+                data-field="destination"
+                value={destination}
+                onchange={handleChange}
+                required>
+            </lightning-input>
+
+            <div class="form-row">
+                <lightning-input
+                    type="date"
+                    label="Travel start date"
+                    data-field="travelStartDate"
+                    value={travelStartDate}
+                    onchange={handleChange}>
+                </lightning-input>
+                <lightning-input
+                    type="date"
+                    label="Travel end date"
+                    data-field="travelEndDate"
+                    value={travelEndDate}
+                    onchange={handleChange}>
+                </lightning-input>
+            </div>
+
+            <div class="form-row">
+                <lightning-input
+                    type="number"
+                    label="Number of travelers"
+                    data-field="numTravelers"
+                    value={numTravelers}
+                    onchange={handleChange}
+                    min="1">
+                </lightning-input>
+                <lightning-combobox
+                    label="Package type"
+                    data-field="packageType"
+                    value={packageType}
+                    options={packageTypeOptions}
+                    onchange={handleChange}>
+                </lightning-combobox>
+            </div>
+
+            <lightning-combobox
+                label="How did you hear about us?"
+                data-field="source"
+                value={source}
+                options={sourceOptions}
+                onchange={handleChange}>
+            </lightning-combobox>
+
+            <button class="submit-btn" onclick={handleSubmit} disabled={isSubmitting}>
+                <template if:false={isSubmitting}>Submit enquiry</template>
+                <template if:true={isSubmitting}>Submitting...</template>
+            </button>
+        </div>
+
+    </div>
+</template>

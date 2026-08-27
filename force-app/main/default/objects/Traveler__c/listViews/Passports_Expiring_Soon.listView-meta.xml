@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Passports_Expiring_Soon</fullName>
+    <columns>NAME</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Booking__c</field>
+        <operation>equals</operation>
+        <value>NEXT 180 DAYS</value>
+    </filters>
+    <label>Passports Expiring Soon</label>
+</ListView>
