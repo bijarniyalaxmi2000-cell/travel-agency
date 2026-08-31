@@ -1,9 +1,10 @@
-import { LightningElement, track } from 'lwc';
+import { LightningElement } from 'lwc';
 import createLead from '@salesforce/apex/LeadCaptureController.createLead';
 
 export default class LeadCaptureForm extends LightningElement {
-    @track isSubmitting = false;
-    @track errorMessage = '';
+
+    isSubmitting = false;
+    errorMessage = '';
 
     firstName = '';
     lastName = '';
@@ -43,46 +44,58 @@ export default class LeadCaptureForm extends LightningElement {
     ];
 
     handleChange(event) {
-        const field = event.target.dataset.field;
-        this[field] = event.target.value;
+        const fieldName = event.target.dataset.field;
+        this[fieldName] = event.target.value;
     }
 
-    async handleSubmit() {
-        const allValid = [...this.template.querySelectorAll('lightning-input, lightning-combobox')]
-            .reduce((validSoFar, field) => {
-                field.reportValidity();
-                return validSoFar && field.checkValidity();
-            }, true);
+    handleSubmit() {
 
-        if (!allValid) {
+        if (this.firstName === '') {
+            this.errorMessage = 'Please enter First Name';
             return;
         }
 
-        this.isSubmitting = true;
-        this.errorMessage = '';
+        if (this.lastName === '') {
+            this.errorMessage = 'Please enter Last Name';
+            return;
+        }
 
-        try {
-            await createLead({
-                firstName: this.firstName,
-                lastName: this.lastName,
-                email: this.email,
-                phone: this.phone,
-                company: this.company,
-                clientType: this.clientType,
-                destination: this.destination,
-                travelStartDate: this.travelStartDate || null,
-                travelEndDate: this.travelEndDate || null,
-                numTravelers: this.numTravelers ? parseInt(this.numTravelers, 10) : null,
-                packageType: this.packageType,
-                source: this.source
-            });
+        if (this.email === '') {
+            this.errorMessage = 'Please enter Email';
+            return;
+        }
+
+        this.errorMessage = '';
+        this.isSubmitting = true;
+
+        let travelersCount = null;
+        if (this.numTravelers !== '') {
+            travelersCount = parseInt(this.numTravelers, 10);
+        }
+
+        createLead({
+            firstName: this.firstName,
+            lastName: this.lastName,
+            email: this.email,
+            phone: this.phone,
+            company: this.company,
+            clientType: this.clientType,
+            destination: this.destination,
+            travelStartDate: this.travelStartDate,
+            travelEndDate: this.travelEndDate,
+            numTravelers: travelersCount,
+            packageType: this.packageType,
+            source: this.source
+        })
+        .then(() => {
             window.open('https://orgfarm-7e0a5e4f0c-dev-ed.develop.lightning.force.com/lightning/n/Lead_Thank_You', '_blank');
             this.resetForm();
-        } catch (error) {
-            this.errorMessage = error.body ? error.body.message : 'Something went wrong. Please try again.';
-        } finally {
             this.isSubmitting = false;
-        }
+        })
+        .catch((error) => {
+            this.errorMessage = 'Something went wrong. Please try again.';
+            this.isSubmitting = false;
+        });
     }
 
     resetForm() {
@@ -98,9 +111,5 @@ export default class LeadCaptureForm extends LightningElement {
         this.numTravelers = '';
         this.packageType = '';
         this.source = '';
-
-        this.template.querySelectorAll('lightning-input, lightning-combobox').forEach(field => {
-            field.value = '';
-        });
     }
 }
